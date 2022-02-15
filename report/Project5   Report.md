@@ -375,7 +375,7 @@ bool Mat_conv::gemm(const Mat_conv &mat1, const Mat_conv &gmat1, const conv_para
 
 如图，我们可以将矩阵卷积核每次扫过的区域（图中的patch）展开成一维向量的形式，多个这样的向量组装到一起，便形成了一个矩阵，该矩阵我在代码中用gmat1来表示。
 
-![](C:\Users\WYH\Desktop\picture2.png)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture2.png)
 
 同时，由于给出的参数矩阵本身便可以看成是每一个卷积核数据为一行的格式，只需要将其转置一次（本Pro用新开辟的数组B来存储转置后的权重矩阵），便可以直接与转换后的gmat1相乘。这样，矩阵卷积便转化为了矩阵乘法。
 
@@ -547,27 +547,27 @@ int main()
 
 #### 1)结果正确性检验
 
-![](C:\Users\WYH\Desktop\picture3.png)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture3.png)
 
 如图，当输入图像是Pro指定的人脸图像时，结果与GitHub上文档结果一致
 
-![](C:\Users\WYH\Desktop\picture4.png)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture4.png)
 
 当输入图像是飞机场时，结果也一致
 
-![picture5](C:\Users\WYH\Desktop\picture5.jpg)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture5.jpg)
 
-![](C:\Users\WYH\Desktop\picture6.png)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture6.png)
 
 如图，当输入上述图片时，人脸概率不足50%，合理，因为未能检测到鼻子，且眼睛与口等要素点过于卡通化
 
-![](C:\Users\WYH\Desktop\picture7.png)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture7.png)
 
 但是我也发现一些瑕疵，如上，读入一张纯白的图像，结果置信度就比较低了，人脸概率为51%
 
-![](C:\Users\WYH\Desktop\picture8.jpg)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture8.jpg)
 
-![](C:\Users\WYH\Desktop\picture9.png)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture9.png)
 
 最后，必须得用于老师镇楼，结果很可靠。以上，可以看出本程序的正确性是有一定保障的
 
@@ -584,7 +584,7 @@ int main()
 
 **方法一**：滑动窗口+点乘
 
-![QQ图片20211216234843](C:\Users\WYH\Desktop\picture10.png)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture10.png)
 
 经过三次实验，结果十分相近，没有出现突兀的数据，取时间的平均值为（4.268+4.248+4.173）/3为4.230ms
 
@@ -592,7 +592,7 @@ int main()
 
 **方法二**：将矩阵卷积转化为矩阵乘法
 
-![](C:\Users\WYH\Desktop\picture11.png)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture11.png)
 
 经过三次实验，结果十分相近，没有出现突兀的数据，取时间的平均值为（2.826+2.929+2.890）/3为2.881ms
 
@@ -600,7 +600,7 @@ int main()
 
 补充：在几天后我由于要上ARM平台测试，所以将所有的AVX指令都删除了，我在本地又测试了几次，惊奇的发现不采用AVX指令集加速程序居然跑的更快！如下图.经过多次测试，平均速度达到了1.86ms
 
-![](C:\Users\WYH\Desktop\picture12.png)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture12.png)
 
 这让我比较意外，在经过一番排除后，我发现，我的AVX指令集是嵌套在这一层循环中的
 
@@ -612,7 +612,7 @@ int main()
 
 **方法三**：调用OpenBlas库进行加速
 
-![](C:\Users\WYH\Desktop\picture13.png)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture13.png)
 
 经过三次实验，取时间平均值为（1.358+1.31+1.469）/3为1.379ms.但是有一个问题，就是我调用openblas库运算后，时间会变得比较不稳定，快的时候为1ms左右，慢的时候会达到10ms甚至以上。我验证后发现，拖慢时间的永远是第一层卷积，其它两层和全连接层耗时几乎每次都一样。但是由于时间问题，我未能查明原因。
 
@@ -632,7 +632,7 @@ ARM平台不支持AVX指令集，由于时间原因，我并没有重写ARM的�
 
   下图为在ARM上运行的结果（图像：face.jpg）
 
-  ![](C:\Users\WYH\Desktop\picture14.png)
+ ![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture14.png)
 
 不出意料，在X86上平均时间为1.86ms时间的程序，在ARM上要慢上87%左右（平均时间为3.490ms）。这是因为ARM的指令集更为精简，优势是低功耗，而X86的优势是高性能。补充：于老师强调了Relu层的if语句，通过查阅为什么if语句效率不高让我知道了CPU是流水线工作的。更近一步，我对两种架构也有了更深的理解。在此记录一下自己的收获
 
@@ -684,7 +684,7 @@ ARM平台不支持AVX指令集，由于时间原因，我并没有重写ARM的�
   }
   ```
 
-![](C:\Users\WYH\Desktop\picture15.png)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture15.png)
 
 如图，在main函数中调用CNN函数，由于CNN参数列表第一个参数非引用类型，调用了拷贝构造函数，打印“copy”与被拷贝对象的Matrix的首地址。紧接着，CNN中打印拷贝出来的mat1的Matrix首地址，可以看到，与被拷贝对象共享地址，且打印其counter为2。在CNN函数中新建了matfir后，调用conv函数，同理，mat1又被拷贝构造了一份，counter为3，而matfir由于传递的是引用，counter仍然为1，conv函数中的matMul其实就是CNN函数中的matfir。在conv函数返回时，mat1被析构一次，打印minus，在函数CNN返回时，CNN中创建的新对象全部被析构（代码未列出），可以看到，包括了matfir。这时mat1由于counter为2，再次minus，最后到了main函数返回，mat被析构。
 
@@ -711,9 +711,9 @@ ARM平台不支持AVX指令集，由于时间原因，我并没有重写ARM的�
 
   例如：用户在调用gemm函数时，输入的参数matfir（用于接受卷积结果的矩阵）的行数打错了，运行结果如图，程序打印错误提示，并将错误信息出入到了error.txt文件，将其与标准输出分开，便于阅读
 
-![](C:\Users\WYH\Desktop\picture16.png)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture16.png)
 
-![](C:\Users\WYH\Desktop\picture17.png)
+![Image text](https://github.com/TsingYiPainter/Sustech_CS205_C-Cpp_Fianl-Project_21F/blob/main/report/picture17.png)
 
 可以见到，方法不断从栈里弹出，同时也回溯地将每一次的错误由深至浅打印了出来。如果发现错误是由前面的函数对参数检查不细致造成的，可以增强前面函数的鲁棒性，从源头便消除错误。
 
